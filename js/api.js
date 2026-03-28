@@ -19,10 +19,10 @@ async function q(table, params = '') {
 }
 
 export const getKhutbahs = ({ limit = 20, offset = 0 } = {}) =>
-  q('khutbahs', `select=id,title,slug,author&status=eq.Published&order=title.asc&limit=${limit}&offset=${offset}`);
+  q('khutbahs', `select=id,title,slug,author&status=eq.PUBLISHED&order=title.asc&limit=${limit}&offset=${offset}`);
 
 export const getAllKhutbahs = () =>
-  q('khutbahs', `select=id,title,slug,author&status=eq.Published&order=title.asc`);
+  q('khutbahs', `select=id,title,slug,author&status=eq.PUBLISHED&order=title.asc`);
 
 export const getKhutbahBySlug = async (slug) => {
   const rows = await q('khutbahs', `select=*&slug=eq.${encodeURIComponent(slug)}&limit=1`);
@@ -31,11 +31,11 @@ export const getKhutbahBySlug = async (slug) => {
 
 export const searchKhutbahs = (term) => {
   const t = encodeURIComponent(term);
-  return q('khutbahs', `select=id,title,slug,author&or=(title.ilike.*${t}*,english_part1.ilike.*${t}*,author.ilike.*${t}*)&status=eq.Published&order=title.asc`);
+  return q('khutbahs', `select=id,title,slug,author&or=(title.ilike.*${t}*,english_part1.ilike.*${t}*,author.ilike.*${t}*)&status=eq.PUBLISHED&order=title.asc`);
 };
 
 export const getKhutbahCount = async () => {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/khutbahs?select=id&status=eq.Published`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/khutbahs?select=id&status=eq.PUBLISHED`, {
     headers: { ...H, 'Prefer': 'count=exact', 'Range': '0-0' }
   });
   return parseInt(res.headers.get('Content-Range')?.split('/')[1] || '0', 10);
