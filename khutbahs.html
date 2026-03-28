@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Library — KhutbahCave</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .page-header { padding: 3.5rem 0 2rem; border-bottom: 1px solid var(--border); }
+    .page-header h1 { font-size: clamp(2rem, 5vw, 3.2rem); }
+
+    .toolbar {
+      display: flex; gap: 1rem; align-items: center;
+      padding: 1.75rem 0; flex-wrap: wrap;
+    }
+    .toolbar .search-wrap { flex: 1; min-width: 200px; }
+    .toolbar select {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 0.85rem 1rem;
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem; outline: none; cursor: pointer;
+      transition: border-color 0.2s; min-width: 160px;
+    }
+    .toolbar select:focus { border-color: var(--gold-dim); }
+
+    #resultCount { color: var(--muted); font-size: 0.85rem; padding-bottom: 0.75rem; }
+
+    .khutbah-list-card {
+      text-decoration: none; display: flex;
+      align-items: center; justify-content: space-between;
+      gap: 1rem; padding: 1.25rem 1.5rem;
+    }
+    .khutbah-list-card h3 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; margin-bottom: 0.2rem; color: var(--text); transition: color 0.2s; }
+    .khutbah-list-card:hover h3 { color: var(--gold); }
+    .khutbah-list-card .meta { font-size: 0.82rem; color: var(--muted); }
+    .khutbah-list-card .arrow { color: var(--gold); opacity: 0; transition: opacity 0.2s; flex-shrink: 0; }
+    .khutbah-list-card:hover .arrow { opacity: 1; }
+
+    #grid { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .load-more-wrap { text-align: center; margin-top: 2.5rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Khutbah<span>Cave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="khutbahs.html" class="active">Library</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="download.html" class="nav-cta">Get the App</a></li>
+  </ul>
+</nav>
+
+<div class="container">
+  <div class="page-header">
+    <p class="section-label">Browse</p>
+    <h1>Khutbah Library</h1>
+    <div class="divider"></div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search by title, author, or topic…"/>
+    </div>
+    <select id="authorFilter"><option value="">All authors</option></select>
+  </div>
+
+  <p id="resultCount"></p>
+  <div id="grid"><div class="loading"><div class="spinner"></div>Loading library…</div></div>
+  <div class="load-more-wrap"><button class="btn btn-outline" id="loadMoreBtn" style="display:none">Load more</button></div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">KhutbahCave</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="download.html">Download</a>
+    </div>
+    <p class="footer-copy">© 2025 KhutbahCave. All rights reserved.</p>
+  </div>
+</footer>
+
+<script type="module">
+  import { getAllKhutbahs, searchKhutbahs, getAuthors } from './js/api.js';
+
+  let allKhutbahs = [];
+  let filtered    = [];
+  let page        = 0;
+  const PAGE_SIZE = 20;
+
+  const grid        = document.getElementById('grid');
+  const countEl     = document.getElementById('resultCount');
+  const searchInput = document.getElementById('searchInput');
+  const authorSel   = document.getElementById('authorFilter');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+  function renderCard(k) {
+    return `<a href="khutbah.html?slug=${encodeURIComponent(k.slug)}" class="card khutbah-list-card">
+      <div>
+        <h3>${k.title}</h3>
+        <p class="meta">${k.author || 'Unknown author'}</p>
+      </div>
+      <span class="arrow">→</span>
+    </a>`;
+  }
+
+  function renderPage() {
+    const slice = filtered.slice(0, (page + 1) * PAGE_SIZE);
+    grid.innerHTML = slice.length
+      ? slice.map(renderCard).join('')
+      : '<p style="color:var(--muted);padding:2rem 0">No khutbahs found.</p>';
+    countEl.textContent = `${filtered.length} khutbah${filtered.length !== 1 ? 's' : ''}`;
+    loadMoreBtn.style.display = filtered.length > slice.length ? 'inline-flex' : 'none';
+  }
+
+  function applyFilters() {
+    const term   = searchInput.value.trim().toLowerCase();
+    const author = authorSel.value;
+    filtered = allKhutbahs.filter(k => {
+      const matchSearch = !term || k.title?.toLowerCase().includes(term) || k.author?.toLowerCase().includes(term);
+      const matchAuthor = !author || k.author === author;
+      return matchSearch && matchAuthor;
+    });
+    page = 0;
+    renderPage();
+  }
+
+  // Load data
+  getAllKhutbahs().then(rows => {
+    allKhutbahs = rows;
+    filtered    = rows;
+    renderPage();
+  }).catch(() => {
+    grid.innerHTML = '<p style="color:var(--muted)">Could not load data. Check Supabase credentials in js/api.js.</p>';
+  });
+
+  getAuthors().then(authors => {
+    authorSel.innerHTML = '<option value="">All authors</option>' +
+      authors.map(a => `<option value="${a}">${a}</option>`).join('');
+  });
+
+  let debounce;
+  searchInput.addEventListener('input', () => { clearTimeout(debounce); debounce = setTimeout(applyFilters, 280); });
+  authorSel.addEventListener('change', applyFilters);
+  loadMoreBtn.addEventListener('click', () => { page++; renderPage(); });
+</script>
+</body>
+</html>

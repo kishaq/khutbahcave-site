@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Download — KhutbahCave</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .download-hero {
+      min-height: 70vh; display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      background: radial-gradient(ellipse 60% 60% at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 65%);
+    }
+    .download-hero .container-sm { text-align: center; }
+    .download-hero h1 em { color: var(--gold); font-style: italic; }
+    .download-hero p { color: var(--muted); font-size: 1.1rem; max-width: 420px; margin: 1.25rem auto 2.5rem; }
+
+    .store-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .store-btn {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 0.9rem 1.75rem;
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .store-btn:hover { border-color: var(--gold-dim); transform: translateY(-2px); }
+    .store-btn-icon { font-size: 1.8rem; line-height: 1; }
+    .store-btn-text { text-align: left; }
+    .store-btn-sub  { font-size: 0.7rem; color: var(--muted); display: block; }
+    .store-btn-name { font-size: 1rem; font-weight: 500; }
+
+    .features { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+    .feature-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .feature-item .icon { font-size: 1.4rem; flex-shrink: 0; margin-top: 0.1rem; }
+    .feature-item h4 { font-size: 1rem; margin-bottom: 0.25rem; }
+    .feature-item p  { font-size: 0.85rem; color: var(--muted); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Khutbah<span>Cave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="khutbahs.html">Library</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="download.html" class="nav-cta active">Get the App</a></li>
+  </ul>
+</nav>
+
+<div class="download-hero">
+  <div class="container-sm">
+    <p class="section-label">Free Download</p>
+    <h1>The KhutbahCave<br/><em>mobile app</em></h1>
+    <p>Your entire khutbah library in your pocket. Available on iOS and Android, completely free.</p>
+    <div class="store-btns">
+      <a href="YOUR_APP_STORE_LINK" class="store-btn">
+        <div class="store-btn-icon">🍎</div>
+        <div class="store-btn-text">
+          <span class="store-btn-sub">Download on the</span>
+          <span class="store-btn-name">App Store</span>
+        </div>
+      </a>
+      <a href="YOUR_PLAY_STORE_LINK" class="store-btn">
+        <div class="store-btn-icon">▶</div>
+        <div class="store-btn-text">
+          <span class="store-btn-sub">Get it on</span>
+          <span class="store-btn-name">Google Play</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <p class="section-label">App Features</p>
+    <h2>Everything you need</h2>
+    <div class="divider"></div>
+    <div class="features">
+      <div class="feature-item card fade-in">
+        <div class="icon">📚</div>
+        <div>
+          <h4>Full Library</h4>
+          <p>Access every khutbah in the collection, always up to date.</p>
+        </div>
+      </div>
+      <div class="feature-item card fade-in">
+        <div class="icon">🔍</div>
+        <div>
+          <h4>Powerful Search</h4>
+          <p>Find sermons by topic, keyword, or author in seconds.</p>
+        </div>
+      </div>
+      <div class="feature-item card fade-in">
+        <div class="icon">📴</div>
+        <div>
+          <h4>Offline Reading</h4>
+          <p>Save khutbahs to read without an internet connection.</p>
+        </div>
+      </div>
+      <div class="feature-item card fade-in">
+        <div class="icon">🌙</div>
+        <div>
+          <h4>Dark Mode</h4>
+          <p>Easy on the eyes, day or night.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="text-align:center; background:var(--surface); border-top:1px solid var(--border); border-bottom:1px solid var(--border)">
+  <div class="container-sm">
+    <h2>Or read on the web</h2>
+    <p style="color:var(--muted); margin: 1rem 0 2rem">No app needed — the full library is available right here.</p>
+    <a href="khutbahs.html" class="btn btn-outline">Browse Library</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">KhutbahCave</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="khutbahs.html">Library</a>
+      <a href="about.html">About</a>
+    </div>
+    <p class="footer-copy">© 2025 KhutbahCave. All rights reserved.</p>
+  </div>
+</footer>
+
+</body>
+</html>

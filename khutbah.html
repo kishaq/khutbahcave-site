@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Khutbah — KhutbahCave</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--muted); text-decoration: none; font-size: 0.85rem;
+      padding: 2rem 0 0; transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+
+    .khutbah-header { padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); }
+    .khutbah-header h1 { margin: 1rem 0 0.75rem; }
+    .khutbah-meta { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
+    .khutbah-meta span { font-size: 0.85rem; color: var(--muted); }
+    .khutbah-meta .dot { color: var(--border); }
+
+    .khutbah-body { padding: 3rem 0; }
+    .khutbah-body p {
+      font-size: 1.05rem; line-height: 1.9;
+      color: #d4ccc0; margin-bottom: 1.5rem;
+    }
+    .part-divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 2.5rem 0; color: var(--muted); font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.1em;
+    }
+    .part-divider::before, .part-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    .not-found { text-align: center; padding: 6rem 0; }
+    .not-found h2 { margin-bottom: 1rem; }
+    .not-found p  { color: var(--muted); margin-bottom: 2rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="index.html">Khutbah<span>Cave</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="khutbahs.html" class="active">Library</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="download.html" class="nav-cta">Get the App</a></li>
+  </ul>
+</nav>
+
+<div class="container-sm">
+  <a href="khutbahs.html" class="back-link">← Back to Library</a>
+
+  <div id="content">
+    <div class="loading" style="padding:6rem 0"><div class="spinner"></div>Loading khutbah…</div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">KhutbahCave</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="khutbahs.html">Library</a>
+      <a href="download.html">Download</a>
+    </div>
+    <p class="footer-copy">© 2025 KhutbahCave. All rights reserved.</p>
+  </div>
+</footer>
+
+<script type="module">
+  import { getKhutbahBySlug } from './js/api.js';
+
+  const params = new URLSearchParams(location.search);
+  const slug   = params.get('slug');
+  const el     = document.getElementById('content');
+
+  if (!slug) {
+    el.innerHTML = `<div class="not-found"><h2>No khutbah specified</h2><p>Please select a khutbah from the library.</p><a href="khutbahs.html" class="btn btn-primary">Browse Library</a></div>`;
+  } else {
+    getKhutbahBySlug(slug).then(k => {
+      if (!k) {
+        el.innerHTML = `<div class="not-found"><h2>Khutbah not found</h2><p>This khutbah may have been moved or removed.</p><a href="khutbahs.html" class="btn btn-primary">Browse Library</a></div>`;
+        return;
+      }
+
+      document.title = `${k.title} — KhutbahCave`;
+
+      const part1 = (k.english_part1 || '').trim().split('\n').filter(Boolean).map(p => `<p>${p}</p>`).join('');
+      const part2 = (k.english_part2 || '').trim().split('\n').filter(Boolean).map(p => `<p>${p}</p>`).join('');
+
+      el.innerHTML = `
+        <div class="khutbah-header">
+          <span class="badge">Khutbah</span>
+          <h1>${k.title}</h1>
+          <div class="khutbah-meta">
+            ${k.author ? `<span>By ${k.author}</span>` : ''}
+          </div>
+        </div>
+        <div class="khutbah-body">
+          ${part1}
+          ${part2 ? `<div class="part-divider">Part Two</div>${part2}` : ''}
+        </div>
+        <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem">
+          <a href="khutbahs.html" class="btn btn-outline">← Back to Library</a>
+          <a href="download.html" class="btn btn-primary">Read more in the App</a>
+        </div>`;
+    }).catch(() => {
+      el.innerHTML = `<div class="not-found"><h2>Error loading khutbah</h2><p>Check your Supabase credentials in js/api.js.</p><a href="khutbahs.html" class="btn btn-outline">Back to Library</a></div>`;
+    });
+  }
+</script>
+</body>
+</html>
