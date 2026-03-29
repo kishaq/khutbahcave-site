@@ -1,31 +1,14 @@
 [build]
 functions = "netlify/functions"
 
-# API routes must come first
 [[redirects]]
-  from = "/api/"
-  to = "/.netlify/functions/:splat"
-  status = 200
-  force = true
+from = "/api/"
+to = "/.netlify/functions/:splat"
+status = 200
+force = true
 
-[[headers]]
-  for = "/"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-
-[[headers]]
-  for = "/js/"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/css/"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# SPA routing (must be last)
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/"
+to = "/index.html"
+status = 200
+conditions = {Path = ["!^/api/.*"]}
