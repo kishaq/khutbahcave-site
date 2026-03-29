@@ -1,40 +1,38 @@
 exports.handler = async (event) => {
-  const SUPABASE_URL = process.env.SUPABASE_URL
-  const SUPABASE_KEY = process.env.SUPABASE_KEY
+  try {
+    const SUPABASE_URL = process.env.SUPABASE_URL
+    const SUPABASE_KEY = process.env.SUPABASE_KEY
 
-  const params = event.queryStringParameters || {}
+    const params = event.queryStringParameters || {}
+    const page = parseInt(params.page || "1")
+    const limit = parseInt(params.limit || "10")
 
-  const page = parseInt(params.page || "1")
-  const limit = parseInt(params.limit || "10")
-  const search = params.search || ""
-  const slug = params.slug || ""
+    const start = (page - 1) * limit
+    const end = start + limit - 1
 
-  let url = `${SUPABASE_URL}/rest/v1/khutbahs?select=*`
+    const url = `${SUPABASE_URL}/rest/v1/khutbahs?select=*`
 
-  // pagination
-  const start = (page - 1) * limit
-  const end = start + limit - 1
+    const response = await fetch(url, {
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Range": `${start}-${end}`
+      }
+    })
 
-  if (slug) {
-    url += `&slug=eq.${slug}`
-  }
+    const data = await response.json()
 
-  if (search) {
-    url += `&title=ilike.*${search}*`
-  }
-
-  const response = await fetch(url, {
-    headers: {
-      apikey: SUPABASE_KEY,
-      Authorization: `Bearer ${SUPABASE_KEY}`,
-      Range: `${start}-${end}`
+    return {
+      statusCode: 200,
+      body: JSON.stringify(data)
     }
-  })
 
-  const data = await response.json()
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify(data)
+  } catch (err) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({
+        error: err.message
+      })
+    }
   }
 }
