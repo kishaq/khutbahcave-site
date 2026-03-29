@@ -12,3 +12,9 @@ from = "/"
 to = "/index.html"
 status = 200
 conditions = {Path = ["!^/api/.*"]}
+
+[[redirects]]
+from = "/khutbahs"
+to = "/.netlify/functions/khutbahs"
+status = 200
+force = true
