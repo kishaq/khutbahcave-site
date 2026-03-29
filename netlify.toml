@@ -2,8 +2,8 @@
 functions = “netlify/functions”
 
 [[redirects]]
-from = “/api/khutbahs”
-to = “/.netlify/functions/khutbahs”
+from = “/api/*”
+to = “/.netlify/functions/:splat”
 status = 200
 
 [[headers]]
