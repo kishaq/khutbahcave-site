@@ -1,20 +1,4 @@
-[build]
-functions = "netlify/functions"
-
-[[redirects]]
-from = "/api/"
-to = "/.netlify/functions/:splat"
-status = 200
-force = true
-
-[[redirects]]
-from = "/"
+[[[redirects]]
+from = "/*"
 to = "/index.html"
 status = 200
-conditions = {Path = ["!^/api/.*"]}
-
-[[redirects]]
-from = "/khutbahs"
-to = "/.netlify/functions/khutbahs"
-status = 200
-force = true
