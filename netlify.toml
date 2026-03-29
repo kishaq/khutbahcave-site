@@ -1,6 +1,7 @@
 [build]
 functions = "netlify/functions"
 
+# API routes must come first
 [[redirects]]
   from = "/api/"
   to = "/.netlify/functions/:splat"
@@ -23,6 +24,7 @@ functions = "netlify/functions"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
+# SPA routing (must be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"
