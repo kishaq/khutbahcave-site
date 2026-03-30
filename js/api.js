@@ -46,6 +46,11 @@ export const getAuthors = async () => {
   return [...new Set(rows.map(r => r.author).filter(Boolean))].sort();
 };
 
-export const getCategories = () => q('categories', 'select=*&order=title.asc');
-export const getDuas        = () => q('duas',       'select=*&order=id.asc');
-export const getResources   = () => q('resources',  'select=*&order=id.asc');
+export const getCategories     = () => q('categories',     'select=*&order=title.asc');
+export const getDuas           = () => q('duas',           'select=*&order=id.asc');
+export const getResources      = () => q('resources',      'select=*&order=id.asc');
+export const getVideoPlaylists = () => q('video_playlists','select=*&status=eq.PUBLISHED&order=title.asc');
+
+// Arabic khutbah — 4 shared positions used across all khutbahs
+export const getArabicKhutbah = () =>
+  q('arabic_khutbah', 'select=*&order=Position.asc');
