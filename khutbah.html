@@ -1,116 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Khutbah — KhutbahCave</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Khutbah — Khutbah Cave</title>
+  <link rel="stylesheet" href="css/style.css" />
   <style>
-    .back-link {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      color: var(--muted); text-decoration: none; font-size: 0.85rem;
-      padding: 2rem 0 0; transition: color 0.2s;
+    .breadcrumb {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 5vw;
+      font-size: 0.82rem;
+      color: var(--muted);
     }
-    .back-link:hover { color: var(--gold); }
+    .breadcrumb a { color: var(--green); }
+    .breadcrumb span { margin: 0 0.4rem; }
 
-    .khutbah-header { padding: 2rem 0 3rem; border-bottom: 1px solid var(--border); }
-    .khutbah-header h1 { margin: 1rem 0 0.75rem; }
-    .khutbah-meta { display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap; }
-    .khutbah-meta span { font-size: 0.85rem; color: var(--muted); }
-    .khutbah-meta .dot { color: var(--border); }
+    .khutbah-header {
+      background: var(--green);
+      color: #fff;
+      padding: 4rem 5vw 3.5rem;
+    }
+    .kh-inner { max-width: 780px; margin: 0 auto; }
+    .kh-tag {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 1rem;
+    }
+    .kh-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.15;
+    }
+    .kh-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.875rem;
+      flex-wrap: wrap;
+    }
+    .kh-author {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gold-light);
+    }
+    .kh-author::before {
+      content: '';
+      width: 20px; height: 1px;
+      background: var(--gold);
+      display: inline-block;
+    }
 
-    .khutbah-body { padding: 3rem 0; }
+    .khutbah-body {
+      max-width: 780px;
+      margin: 3.5rem auto;
+      padding: 0 5vw;
+    }
+    .khutbah-body .part-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .khutbah-body .part-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
     .khutbah-body p {
-      font-size: 1.05rem; line-height: 1.9;
-      color: #d4ccc0; margin-bottom: 1.5rem;
+      color: var(--text);
+      font-size: 1.05rem;
+      line-height: 1.85;
+      margin-bottom: 1.4rem;
+      white-space: pre-wrap;
     }
     .part-divider {
-      display: flex; align-items: center; gap: 1rem;
-      margin: 2.5rem 0; color: var(--muted); font-size: 0.8rem;
-      text-transform: uppercase; letter-spacing: 0.1em;
-    }
-    .part-divider::before, .part-divider::after {
-      content: ''; flex: 1; height: 1px; background: var(--border);
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 3rem 0;
     }
 
-    .not-found { text-align: center; padding: 6rem 0; }
-    .not-found h2 { margin-bottom: 1rem; }
-    .not-found p  { color: var(--muted); margin-bottom: 2rem; }
+    .khutbah-nav {
+      max-width: 780px;
+      margin: 2rem auto 0;
+      padding: 2rem 5vw;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .khutbah-nav a {
+      color: var(--green);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .khutbah-nav a:hover { color: var(--gold); }
   </style>
 </head>
 <body>
 
 <nav>
-  <a class="nav-logo" href="index.html">Khutbah<span>Cave</span></a>
+  <a href="index.html" class="nav-logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <polygon points="11,1 13.9,7.6 21,8.5 16,13.4 17.6,21 11,17.3 4.4,21 6,13.4 1,8.5 8.1,7.6" fill="none" stroke="#E8C47A" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>
+    Khutbah Cave
+  </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="khutbahs.html" class="active">Library</a></li>
+    <li><a href="khutbahs.html" class="active">Khutbahs</a></li>
     <li><a href="about.html">About</a></li>
     <li><a href="download.html" class="nav-cta">Get the App</a></li>
   </ul>
 </nav>
 
-<div class="container-sm">
-  <a href="khutbahs.html" class="back-link">← Back to Library</a>
+<div class="breadcrumb">
+  <a href="khutbahs.html">Khutbahs</a>
+  <span>›</span>
+  <span id="breadcrumb-title">Loading…</span>
+</div>
 
-  <div id="content">
-    <div class="loading" style="padding:6rem 0"><div class="spinner"></div>Loading khutbah…</div>
-  </div>
+<div id="page-content">
+  <div class="loading" style="padding: 6rem 0;">Loading khutbah…</div>
+</div>
+
+<div class="khutbah-nav">
+  <a href="khutbahs.html">← Back to library</a>
+  <a id="full-khutbah-btn" href="#" class="btn btn-gold" style="font-size:0.875rem; padding:0.55rem 1.25rem;">
+    🕌 View Full Khutbah (Arabic + English)
+  </a>
+  <a href="download.html">Read more in the app →</a>
 </div>
 
 <footer>
-  <div class="footer-inner">
-    <div class="footer-logo">KhutbahCave</div>
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="khutbahs.html">Library</a>
-      <a href="download.html">Download</a>
-    </div>
-    <p class="footer-copy">© 2025 KhutbahCave. All rights reserved.</p>
-  </div>
+  <div class="footer-logo">Khutbah Cave</div>
+  <p>A library of Friday sermons for the modern Muslim.</p>
+  <p style="margin-top:1rem"><a href="about.html">About</a> · <a href="khutbahs.html">Khutbahs</a> · <a href="download.html">Download</a></p>
 </footer>
 
 <script type="module">
-  import { getKhutbahBySlug } from './js/api.js';
+  import { getKhutbahBySlug } from './js/api.js'
 
-  const params = new URLSearchParams(location.search);
-  const slug   = params.get('slug');
-  const el     = document.getElementById('content');
+  const params = new URLSearchParams(window.location.search)
+  const slug   = params.get('slug')
 
-  if (!slug) {
-    el.innerHTML = `<div class="not-found"><h2>No khutbah specified</h2><p>Please select a khutbah from the library.</p><a href="khutbahs.html" class="btn btn-primary">Browse Library</a></div>`;
-  } else {
-    getKhutbahBySlug(slug).then(k => {
-      if (!k) {
-        el.innerHTML = `<div class="not-found"><h2>Khutbah not found</h2><p>This khutbah may have been moved or removed.</p><a href="khutbahs.html" class="btn btn-primary">Browse Library</a></div>`;
-        return;
-      }
+  async function load() {
+    if (!slug) { showError('No khutbah specified.'); return }
+    try {
+      const khutbah = await getKhutbahBySlug(slug)
+      if (!khutbah) { showError('Khutbah not found.'); return }
+      render(khutbah)
+    } catch (err) {
+      showError('Failed to load khutbah. Please try again.')
+      console.error(err)
+    }
+  }
 
-      document.title = `${k.title} — KhutbahCave`;
+  function render(k) {
+    document.title = `${k.title} — Khutbah Cave`
+    document.getElementById('breadcrumb-title').textContent = k.title
+    document.getElementById('full-khutbah-btn').href = `khutbah-full.html?slug=${k.slug}`
 
-      const part1 = (k.english_part1 || '').trim().split('\n').filter(Boolean).map(p => `<p>${p}</p>`).join('');
-      const part2 = (k.english_part2 || '').trim().split('\n').filter(Boolean).map(p => `<p>${p}</p>`).join('');
+    const date = k.publish_date
+      ? new Date(k.publish_date).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
+      : null
 
-      el.innerHTML = `
-        <div class="khutbah-header">
-          <span class="badge">Khutbah</span>
-          <h1>${k.title}</h1>
-          <div class="khutbah-meta">
-            ${k.author ? `<span>By ${k.author}</span>` : ''}
+    document.getElementById('page-content').innerHTML = `
+      <div class="khutbah-header">
+        <div class="kh-inner">
+          <div class="kh-tag">Friday Khutbah</div>
+          <h1 class="kh-title">${k.title}</h1>
+          <div class="kh-meta">
+            <span class="kh-author">${k.author || 'Unknown'}</span>
+            ${date ? `<span>${date}</span>` : ''}
           </div>
         </div>
-        <div class="khutbah-body">
-          ${part1}
-          ${part2 ? `<div class="part-divider">Part Two</div>${part2}` : ''}
-        </div>
-        <div style="margin-top:3rem; padding-top:2rem; border-top:1px solid var(--border); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1rem">
-          <a href="khutbahs.html" class="btn btn-outline">← Back to Library</a>
-          <a href="download.html" class="btn btn-primary">Read more in the App</a>
-        </div>`;
-    }).catch(() => {
-      el.innerHTML = `<div class="not-found"><h2>Error loading khutbah</h2><p>Check your Supabase credentials in js/api.js.</p><a href="khutbahs.html" class="btn btn-outline">Back to Library</a></div>`;
-    });
+      </div>
+      <div class="khutbah-body">
+        ${k.english_part1 ? `
+          <div class="part-label">Part one</div>
+          <p>${escHtml(k.english_part1)}</p>
+        ` : ''}
+        ${k.english_part1 && k.english_part2 ? '<hr class="part-divider" />' : ''}
+        ${k.english_part2 ? `
+          <div class="part-label">Part two</div>
+          <p>${escHtml(k.english_part2)}</p>
+        ` : ''}
+      </div>
+    `
   }
+
+  function showError(msg) {
+    document.getElementById('page-content').innerHTML = `<div class="empty">${msg}</div>`
+  }
+
+  function escHtml(str) {
+    return String(str ?? '')
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+  }
+
+  load()
 </script>
 </body>
 </html>
