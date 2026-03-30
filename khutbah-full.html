@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Full Khutbah — Khutbah Cave</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .breadcrumb {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 5vw;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .breadcrumb a { color: var(--green); }
+    .breadcrumb span { margin: 0 0.4rem; }
+
+    .kh-header {
+      background: var(--green);
+      color: #fff;
+      padding: 3.5rem 5vw 3rem;
+    }
+    .kh-header-inner { max-width: 820px; margin: 0 auto; }
+    .kh-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 0.9rem;
+    }
+    .kh-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.15;
+    }
+    .kh-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-top: 1.2rem;
+      color: rgba(255,255,255,0.55);
+      font-size: 0.85rem;
+      flex-wrap: wrap;
+    }
+    .kh-author { color: var(--gold-light); }
+
+    /* ── MAIN BODY ── */
+    .khutbah-full-body {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 5vw 4rem;
+    }
+
+    /* ── BLOCK TYPES ── */
+
+    /* Arabic block */
+    .arabic-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-right: 4px solid var(--gold);
+      border-radius: 8px;
+      padding: 2rem 2.25rem;
+      margin: 2.5rem 0;
+      direction: rtl;
+      text-align: right;
+    }
+    .arabic-block .block-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      direction: ltr;
+      text-align: left;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .arabic-block .block-label::before {
+      content: '';
+      width: 20px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .arabic-block p {
+      font-family: 'Amiri', 'Scheherazade New', 'Traditional Arabic', 'Arial Unicode MS', serif;
+      font-size: 1.55rem;
+      line-height: 2.2;
+      color: var(--text);
+      margin: 0;
+    }
+
+    /* English block */
+    .english-block {
+      margin: 2.5rem 0;
+    }
+    .english-block .block-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .english-block .block-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .english-block p {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: var(--text);
+      white-space: pre-wrap;
+      margin: 0;
+    }
+
+    /* Sit down break */
+    .sit-down-block {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      background: var(--green);
+      color: #fff;
+      border-radius: 10px;
+      padding: 1.5rem 2rem;
+      margin: 2.5rem 0;
+    }
+    .sit-down-icon {
+      width: 44px;
+      height: 44px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.3rem;
+    }
+    .sit-down-block p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--gold-light);
+      margin: 0;
+      line-height: 1.4;
+    }
+    .sit-down-block small {
+      display: block;
+      color: rgba(255,255,255,0.5);
+      font-size: 0.78rem;
+      margin-top: 0.2rem;
+      font-family: 'DM Sans', sans-serif;
+      font-style: normal;
+    }
+
+    /* nav */
+    .khutbah-nav {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 2rem 5vw;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .khutbah-nav a {
+      color: var(--green);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .khutbah-nav a:hover { color: var(--gold); }
+
+    /* print button */
+    .top-actions {
+      max-width: 820px;
+      margin: 1.5rem auto 0;
+      padding: 0 5vw;
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+    .btn-sm {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .btn-sm:hover { border-color: var(--green); color: var(--green); }
+
+    @media print {
+      nav, .breadcrumb, .top-actions, .khutbah-nav, footer { display: none; }
+      .kh-header { background: #fff; color: #000; padding: 0 0 1rem; }
+      .kh-title, .kh-eyebrow, .kh-author, .kh-meta { color: #000 !important; }
+      .arabic-block { border: 1px solid #ccc; background: #fafafa; }
+      .sit-down-block { background: #eee; }
+      .sit-down-block p { color: #333; }
+    }
+  </style>
+  <!-- Arabic web font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+      <polygon points="11,1 13.9,7.6 21,8.5 16,13.4 17.6,21 11,17.3 4.4,21 6,13.4 1,8.5 8.1,7.6" fill="none" stroke="#E8C47A" stroke-width="1.5" stroke-linejoin="round"/>
+    </svg>
+    Khutbah Cave
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="khutbahs.html" class="active">Khutbahs</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="download.html" class="nav-cta">Get the App</a></li>
+  </ul>
+</nav>
+
+<div class="breadcrumb">
+  <a href="khutbahs.html">Khutbahs</a>
+  <span>›</span>
+  <a id="breadcrumb-khutbah" href="#">Loading…</a>
+  <span>›</span>
+  <span>Full Khutbah</span>
+</div>
+
+<!-- Header filled by JS -->
+<div id="kh-header-slot"></div>
+
+<div class="top-actions">
+  <button class="btn-sm" onclick="window.print()">
+    <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+    Print
+  </button>
+</div>
+
+<!-- Full khutbah body, filled by JS -->
+<div class="khutbah-full-body" id="khutbah-body">
+  <div class="loading" style="padding:5rem 0;">Loading full khutbah…</div>
+</div>
+
+<div class="khutbah-nav" id="khutbah-nav" style="display:none">
+  <a id="back-link" href="#">← Back to khutbah</a>
+  <a href="khutbahs.html">Browse all khutbahs →</a>
+</div>
+
+<footer>
+  <div class="footer-logo">Khutbah Cave</div>
+  <p>A library of Friday sermons for the modern Muslim.</p>
+  <p style="margin-top:1rem"><a href="about.html">About</a> · <a href="khutbahs.html">Khutbahs</a> · <a href="download.html">Download</a></p>
+</footer>
+
+<script type="module">
+  import { getKhutbahBySlug, getArabicKhutbah } from './js/api.js'
+
+  const params = new URLSearchParams(window.location.search)
+  const slug   = params.get('slug')
+
+  async function load() {
+    if (!slug) { showError('No khutbah specified.'); return }
+
+    try {
+      const [khutbah, arabic] = await Promise.all([
+        getKhutbahBySlug(slug),
+        getArabicKhutbah()
+      ])
+
+      if (!khutbah)       { showError('Khutbah not found.'); return }
+      if (!arabic?.length){ showError('Arabic content could not be loaded.'); return }
+
+      render(khutbah, arabic)
+    } catch (err) {
+      showError('Failed to load khutbah. Please try again.')
+      console.error(err)
+    }
+  }
+
+  function arabicAt(arabic, position) {
+    return arabic.find(a => a.Position === position)?.['arabic text'] ?? ''
+  }
+
+  function render(k, arabic) {
+    document.title = `${k.title} — Full Khutbah — Khutbah Cave`
+
+    // breadcrumb + back link
+    const backLink = `khutbah.html?slug=${slug}`
+    const bc = document.getElementById('breadcrumb-khutbah')
+    bc.textContent = k.title
+    bc.href = backLink
+    document.getElementById('back-link').href = backLink
+
+    const date = k.publish_date
+      ? new Date(k.publish_date).toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })
+      : null
+
+    // header
+    document.getElementById('kh-header-slot').innerHTML = `
+      <div class="kh-header">
+        <div class="kh-header-inner">
+          <div class="kh-eyebrow">Full Khutbah · Arabic &amp; English</div>
+          <h1 class="kh-title">${escHtml(k.title)}</h1>
+          <div class="kh-meta">
+            <span class="kh-author">${escHtml(k.author || 'Unknown')}</span>
+            ${date ? `<span>${date}</span>` : ''}
+          </div>
+        </div>
+      </div>
+    `
+
+    // build the interleaved content
+    const sections = [
+      arabicSection(1, arabicAt(arabic, 1)),
+      englishSection('Part one',   k.english_part1),
+      arabicSection(2, arabicAt(arabic, 2)),
+      sitDownBlock(),
+      arabicSection(3, arabicAt(arabic, 3)),
+      englishSection('Part two',   k.english_part2),
+      arabicSection(4, arabicAt(arabic, 4)),
+    ]
+
+    document.getElementById('khutbah-body').innerHTML = sections.filter(Boolean).join('')
+    document.getElementById('khutbah-nav').style.display = 'flex'
+  }
+
+  function arabicSection(pos, text) {
+    if (!text) return ''
+    return `
+      <div class="arabic-block">
+        <div class="block-label">Arabic · Position ${pos}</div>
+        <p>${escHtml(text)}</p>
+      </div>
+    `
+  }
+
+  function englishSection(label, text) {
+    if (!text) return ''
+    return `
+      <div class="english-block">
+        <div class="block-label">${label}</div>
+        <p>${escHtml(text)}</p>
+      </div>
+    `
+  }
+
+  function sitDownBlock() {
+    return `
+      <div class="sit-down-block">
+        <div class="sit-down-icon">🤲</div>
+        <div>
+          <p>Please sit down for a few seconds</p>
+          <small>A brief pause before the second part of the khutbah</small>
+        </div>
+      </div>
+    `
+  }
+
+  function showError(msg) {
+    document.getElementById('khutbah-body').innerHTML = `<div class="empty" style="padding:5rem 0;">${msg}</div>`
+  }
+
+  function escHtml(str) {
+    return String(str ?? '')
+      .replace(/&/g,'&amp;')
+      .replace(/</g,'&lt;')
+      .replace(/>/g,'&gt;')
+  }
+
+  load()
+</script>
+</body>
+</html>
